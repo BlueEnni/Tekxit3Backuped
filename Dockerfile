@@ -33,12 +33,13 @@ kill-pid.sh ./
 #creating the actual container and copying all the files in to it
 FROM adoptopenjdk/openjdk8:alpine-slim AS runtime
 COPY --from=build /data /data
+
+WORKDIR /data
+
 RUN apk add --no-cache bash \
 && chmod +x backup_data_MC.sh \
 && chmod +x entrypoint.sh \
 && chmod +x kill-pid.sh
-
-WORKDIR /data
 
 ARG version=0.981Tekxit3Server
 ARG jarfile=forge-1.12.2-14.23.5.2847-universal.jar
