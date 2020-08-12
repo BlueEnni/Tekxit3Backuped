@@ -29,6 +29,7 @@ RUN wget ${URL}${VERSION}.zip \
 COPY backup_data_MC.sh \
 entrypoint.sh \
 java-start.sh \
+java-cycle.sh \
 kill-pid.sh ./
 
 #creating the actual container and copying all the files in to it
@@ -41,6 +42,7 @@ RUN apk add --no-cache bash \
 && chmod +x backup_data_MC.sh \
 && chmod +x entrypoint.sh \
 && chmod +x java-start.sh \
+&& chmod +x java-cycle.sh \
 && chmod +x kill-pid.sh
 
 ARG version=0.981Tekxit3Server
