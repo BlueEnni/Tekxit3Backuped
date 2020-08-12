@@ -5,11 +5,6 @@ WORKDIR /data
 
 ARG url=https://www.tekx.it/downloads/
 ARG version=0.981Tekxit3Server
-ARG jarfile=forge-1.12.2-14.23.5.2847-universal.jar
-# Set memory size
-ARG memory_size=4G
-ARG mounteddir=/var/lib/minecraft
-ENV MOUNTEDDIR=$mounteddir
 ENV URL=$url
 ENV VERSION=$version
 
@@ -35,7 +30,7 @@ COPY backup_data_MC.sh \
 entrypoint.sh \
 kill-pid.sh ./
 
-
+#creating the actual container and copying all the files in to it
 FROM adoptopenjdk/openjdk8:alpine-slim AS runtime
 COPY --from=build /data /data
 RUN apk add --no-cache bash \
@@ -45,7 +40,6 @@ RUN apk add --no-cache bash \
 
 WORKDIR /data
 
-ARG mounteddir=/var/lib/minecraft
 ARG version=0.981Tekxit3Server
 ARG jarfile=forge-1.12.2-14.23.5.2847-universal.jar
 ARG memory_size=4G
@@ -56,7 +50,6 @@ ENV MEMORYSIZE=$memory_size
 ENV BACKUPDENSITYCRON=$backupdensitycron
 ENV JARFILE=$jarfile
 ENV VERSION=$version
-ENV MOUNTEDDIR=$mounteddir
 
 # Expose minecraft port
 EXPOSE 25565/tcp
