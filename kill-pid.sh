@@ -5,5 +5,5 @@
 # Otherwise it loops forever, waking up every 60 seconds
 
 while sleep 60;
-  do ps aux |grep java\ -jar\ -Xms |grep -q -v grep; process1=$?; ps aux |grep crond\ -f |grep -q -v grep; process2=$?; if [ $process1 != $process2 ]; then javaprocess=$(pidof java); kill $javaprocess; crondprocess=$(pidof crond); kill $crondprocess; exit 1; fi;
+  do ps aux |grep java\ -jar\ -Xms |grep -q -v grep; process1=$?; ps aux |grep crond |grep -q -v grep; process2=$?; if [ $process1 != $process2 ]; then javaprocess=$(pidof java); kill $javaprocess; crondprocess=$(pidof crond); kill $crondprocess; exit 1; fi;
 done
