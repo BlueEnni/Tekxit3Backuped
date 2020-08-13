@@ -8,7 +8,7 @@ ARG version=0.981Tekxit3Server
 ENV URL=$url
 ENV VERSION=$version
 
-#adding backupscript, entrypointscript and the kill-process script to the container
+#adding backupscript, entrypointscript, the fixed extrautils2.cfg and the kill-process script to the container
 COPY backup_data_MC.sh \
 entrypoint.sh \
 extrautils2.cfg \
