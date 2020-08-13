@@ -8,6 +8,11 @@ ARG version=0.981Tekxit3Server
 ENV URL=$url
 ENV VERSION=$version
 
+#adding backupscript, entrypointscript and the kill-process script to the container
+COPY backup_data_MC.sh \
+entrypoint.sh \
+extrautils2.cfg \
+kill-pid.sh ./
 #Downloading tekxitserver.zip
 RUN wget ${URL}${VERSION}.zip \
 #Downloading unzip\
@@ -22,13 +27,11 @@ RUN wget ${URL}${VERSION}.zip \
 && mv FTBBackups-1.1.0.1.jar /data/mods/ \
 && wget https://media.forgecdn.net/files/2819/670/FTBBackups-1.1.0.1-sources.jar \
 && mv FTBBackups-1.1.0.1-sources.jar /data/mods/ \
+#moving the fixed extrautils2.cfg into the configfolder\
+&& mv extrautils2.cfg /data/config/ \
 #accepting the eula\
 && touch eula.txt \
 && echo 'eula=true'>eula.txt
-#adding backupscript, entrypointscript and the kill-process script to the container
-COPY backup_data_MC.sh \
-entrypoint.sh \
-kill-pid.sh ./
 
 #creating the actual container and copying all the files in to it
 FROM adoptopenjdk/openjdk8:alpine-slim AS runtime
