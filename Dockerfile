@@ -37,6 +37,8 @@ COPY --from=build /data /data
 WORKDIR /data
 
 RUN apk add --no-cache bash \
+&& apk add --update coreutils \
+&& rm -rf /var/cache/apk/* \
 && chmod +x backup_data_MC.sh \
 && chmod +x entrypoint.sh \
 && chmod +x kill-pid.sh
