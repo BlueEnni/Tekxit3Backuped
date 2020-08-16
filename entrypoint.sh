@@ -1,8 +1,8 @@
 #!/bin/bash
-mv /data/* /files
+mv /files/!(entrypoint.sh) /data
 # Add the cronjobs
-echo "${BACKUPDENSITYCRON}/files/backup_data_MC.sh" > /etc/crontabs/root
-echo "* * * * * /files/kill-pid.sh">> /etc/crontabs/root
+echo "${BACKUPDENSITYCRON}/data/backup_data_MC.sh" > /etc/crontabs/root
+echo "* * * * * /data/kill-pid.sh">> /etc/crontabs/root
 crond
 status=$?
 if [ $status -ne 0 ]; then
