@@ -67,4 +67,4 @@ EXPOSE 25565/udp
 VOLUME "/data"
 
 # Entrypoint with java optimisations
-ENTRYPOINT /data/entrypoint.sh
+ENTRYPOINT /files/entrypoint.sh
