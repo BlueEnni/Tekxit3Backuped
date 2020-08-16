@@ -1,5 +1,5 @@
 #!/bin/bash
-mv /data /files
+mv /data/* /files
 # Add the cronjobs
 echo "${BACKUPDENSITYCRON}/files/backup_data_MC.sh" > /etc/crontabs/root
 echo "* * * * * /files/kill-pid.sh">> /etc/crontabs/root
