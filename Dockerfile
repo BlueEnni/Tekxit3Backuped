@@ -61,8 +61,10 @@ ENV VERSION=$version
 EXPOSE 25565/tcp
 EXPOSE 25565/udp
 
+WORKDIR /files
+
 # Volumes for the external data (Server, World, Config...)
-VOLUME "/data"
+VOLUME "/files"
 
 # Entrypoint with java optimisations
 ENTRYPOINT /data/entrypoint.sh

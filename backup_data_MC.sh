@@ -19,11 +19,11 @@ DATEONLY=`date +%Y%m%d_%H00`
 DAYOLD=`date '+%Y%m%d' -d "$end_date-5 days"`
 HOUROLD=`date '+%Y%m%d_%H00' -d "$end_date-5 hours"`
 
-rm -r /var/lib/minecraft/FULL_BACKUP_$HOUROLD
-rm -r /var/lib/minecraft/FULL_BACKUP_$DAYOLD*
+rm -r /files/minecraft/FULL_BACKUP_$HOUROLD
+rm -r /files/minecraft/FULL_BACKUP_$DAYOLD*
 
 function revertchanges {
-	rm -r /var/lib/minecraft/FULL_BACKUP_$DATEONLY
+	rm -r /files/minecraft/FULL_BACKUP_$DATEONLY
 }
 
 if [ $MAINTAINERLOGIN == "yes" ] ; then
@@ -45,10 +45,10 @@ else
 	echo -e "\e[00;32m OK\e[00m"
 fi
 
-mkdir -p /var/lib/minecraft/FULL_BACKUP_$DATEONLY
+mkdir -p /files/minecraft/FULL_BACKUP_$DATEONLY
 
 echo -en "Full backup...\t\t\t\t\t\t"
-GREPTAR=$($NICE -$PRIORITY $TAR -zcpf /var/lib/minecraft/FULL_BACKUP_$DATEONLY/fullbackup.tar.gz --directory=/data/ --exclude=backups . 2>&1)
+GREPTAR=$($NICE -$PRIORITY $TAR -zcpf /files/minecraft/FULL_BACKUP_$DATEONLY/fullbackup.tar.gz --directory=/files/ --exclude=backups . 2>&1)
 TAREXC=$?
 if [ $TAREXC -eq 2 ] ; then
         echo -e "\e[00;31m FATAL ERR\e[00m"
@@ -65,5 +65,5 @@ if [ $TAREXC -eq 0 ] ; then
 fi
 
 echo -e "\e[00;32m OK\e[00m"
-echo -e "\n\nSuccessfully saved backup to /var/lib/minecraft/FULL_BACKUP_$DATEONLY"
+echo -e "\n\nSuccessfully saved backup to /files/minecraft/FULL_BACKUP_$DATEONLY"
 exit 0
