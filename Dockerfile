@@ -1,7 +1,7 @@
 FROM openjdk:8 AS build
 MAINTAINER BlueEnni
 
-WORKDIR /data
+WORKDIR /files
 
 ARG url=https://www.tekx.it/downloads/
 ARG version=0.981Tekxit3Server
@@ -18,33 +18,35 @@ RUN wget ${URL}${VERSION}.zip \
 #Downloading unzip\
 && apt-get update -y && apt-get install unzip wget -y --no-install-recommends \
 #unziping the package\
-&& unzip ${VERSION}.zip -d /data/ \
-&& mv ${VERSION}/* /data/ \
+&& unzip ${VERSION}.zip -d /files/ \
+&& mv ${VERSION}/* /files/ \
 && rmdir ${VERSION} \
 && rm ${VERSION}.zip \
 #downloading the backupmod\
 && wget https://media.forgecdn.net/files/2819/669/FTBBackups-1.1.0.1.jar \
-&& mv FTBBackups-1.1.0.1.jar /data/mods/ \
+&& mv FTBBackups-1.1.0.1.jar /files/mods/ \
 && wget https://media.forgecdn.net/files/2819/670/FTBBackups-1.1.0.1-sources.jar \
-&& mv FTBBackups-1.1.0.1-sources.jar /data/mods/ \
+&& mv FTBBackups-1.1.0.1-sources.jar /files/mods/ \
 #moving the fixed extrautils2.cfg into the configfolder\
-&& mv extrautils2.cfg /data/config/ \
+&& mv extrautils2.cfg /files/config/ \
+#creating a FULLBACKUPFOLDER\
+&& mkdir ./FULLBACKUP \
 #accepting the eula\
 && touch eula.txt \
 && echo 'eula=true'>eula.txt
 
 #creating the actual container and copying all the files in to it
 FROM adoptopenjdk/openjdk8:alpine-slim AS runtime
-COPY --from=build /data /data
+COPY --from=build /files /files
 
 WORKDIR /data
 
 RUN apk add --no-cache bash \
 && apk add --update coreutils \
 && rm -rf /var/cache/apk/* \
-&& chmod +x backup_data_MC.sh \
-&& chmod +x entrypoint.sh \
-&& chmod +x kill-pid.sh
+&& chmod +x /files/backup_data_MC.sh \
+&& chmod +x /files/entrypoint.sh \
+&& chmod +x /files/kill-pid.sh
 
 ARG version=0.981Tekxit3Server
 ARG jarfile=forge-1.12.2-14.23.5.2847-universal.jar
@@ -65,4 +67,4 @@ EXPOSE 25565/udp
 VOLUME "/data"
 
 # Entrypoint with java optimisations
-ENTRYPOINT /data/entrypoint.sh
+ENTRYPOINT /files/entrypoint.sh
