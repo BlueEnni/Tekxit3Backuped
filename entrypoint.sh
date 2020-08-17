@@ -1,7 +1,12 @@
 #!/bin/bash
+#copy files to mounted folder /data
 shopt -s extglob
 mv /files/!(entrypoint.sh) /data
 rm -R /files/!(entrypoint.sh)
+#add timezone
+apk add tzdata
+cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
+apk del tzdata
 # Add the cronjobs
 echo "${BACKUPDENSITYCRON}/data/backup_data_MC.sh" > /etc/crontabs/root
 echo "* * * * * /data/kill-pid.sh">> /etc/crontabs/root
